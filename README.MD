@@ -1,4 +1,4 @@
-# FIRST Step to Create New Server with Express-generator
+# Create New Project With Express-Genrerator
 
 - npx express-generator --no-view
 - npm install
