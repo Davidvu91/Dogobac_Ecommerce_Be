@@ -9,6 +9,6 @@ const router = express.Router();
  * @description: authorize with email and password
  */
 
-router.post("loginWithEmail", authController.loginWithEmail);
+router.post("/loginWithEmail", authController.loginWithEmail);
 
 module.exports = router;
