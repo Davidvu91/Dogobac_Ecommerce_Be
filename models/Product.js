@@ -1,21 +1,41 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-// const ObjectId = Schema.ObjectId;
 
-const ProductShema = new Schema(
+const ProductSchema = new Schema(
   {
     name: { type: String, required: true },
     dimension: { type: String, required: true },
-    description: { type: String, required: true },
-    status: { type: String, default: "Còn Hàng" },
-    isSaleOff: { type: Boolean, default: false },
-    pictureUrl: {
+    material: { type: String, required: true },
+    productInfo: { type: String, required: true },
+    Price: { type: Number, required: true },
+    status: { type: String, required: true },
+    category: {
       type: String,
-      default: "",
+      required: true,
+      enum: [
+        "bed",
+        "closet",
+        "sofa",
+        "dining table",
+        "tv shelf",
+        "salon",
+        "dressing table",
+        "shoe cabinet",
+      ],
     },
+    imageUrl: [
+      { imageUrl1: { type: String, required: true } },
+      { imageUrl2: { type: String, required: true } },
+      { imageUrl3: { type: String, required: true } },
+    ],
+    review: { type: Schema.ObjectId, ref: "review" },
+
     isDeleted: { type: Boolean, default: false, select: false },
   },
   { timestamp: true }
 );
 
-const User = mongoose.model("User", ProductShema);
+const Products = mongoose.model("Products", ProductSchema);
+module.exports = Products;
+
+// Hoan chinh Product Model
