@@ -13,7 +13,7 @@ const UserSchema = new Schema(
     avataUrl: {
       type: String,
       default:
-        "https://banner2.cleanpng.com/20180402/ojw/kisspng-united-states-avatar-organization-information-user-avatar-5ac20804a62b58.8673620215226654766806.jpg",
+        "https://thelifetank.com/wp-content/uploads/2018/08/avatar-default-icon.png",
     },
     isDeleted: { type: Boolean, default: false, select: false },
   },
@@ -27,4 +27,7 @@ UserSchema.methods.generateToken = async function () {
   return accessToken;
 };
 
-const User = mongoose.model("User", UserSchema);
+const Users = mongoose.model("Users", UserSchema);
+module.exports = Users;
+
+// Hoan chinh User Model
