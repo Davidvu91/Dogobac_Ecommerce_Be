@@ -6,12 +6,14 @@ const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 const UserSchema = new Schema(
   {
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    address: { type: String, default: "" },
+    name: { type: String, required: true, trim: true },
+    email: { type: String, required: true, unique: true, trim: true },
+    password: { type: String, required: true, trim: true },
+    role: { type: Number, default: 0 },
+    address: { type: String, default: "", trim: true },
     avataUrl: {
       type: String,
+      trim: true,
       default:
         "https://thelifetank.com/wp-content/uploads/2018/08/avatar-default-icon.png",
     },
@@ -29,5 +31,3 @@ UserSchema.methods.generateToken = async function () {
 
 const Users = mongoose.model("Users", UserSchema);
 module.exports = Users;
-
-// Hoan chinh User Model

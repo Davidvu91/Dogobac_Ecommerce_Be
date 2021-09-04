@@ -5,7 +5,7 @@
 
 ## Install more dependency
 
-- npm i nodemon dotenv cors mongoose jsonwebtoken bcrypt
+- npm i nodemon dotenv cors mongoose jsonwebtoken bcrypt formidable
 
 ## Run the Server:
 

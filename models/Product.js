@@ -3,14 +3,15 @@ const Schema = mongoose.Schema;
 
 const ProductSchema = new Schema(
   {
-    name: { type: String, required: true },
-    dimension: { type: String, required: true },
-    material: { type: String, required: true },
+    name: { type: String, required: true, trim: true },
+    dimension: { type: String, required: true, trim: true },
+    material: { type: String, required: true, trim: true },
     productInfo: { type: String, required: true },
-    Price: { type: Number, required: true },
+    Price: { type: Number, required: true, trim: true },
     status: { type: String, required: true },
     category: {
       type: String,
+      trim: true,
       required: true,
       enum: [
         "bed",
@@ -28,14 +29,14 @@ const ProductSchema = new Schema(
       { imageUrl2: { type: String, required: true } },
       { imageUrl3: { type: String, required: true } },
     ],
-    review: { type: Schema.ObjectId, ref: "review" },
+    review: [{ type: Schema.ObjectId, ref: "Review" }],
 
     isDeleted: { type: Boolean, default: false, select: false },
   },
   { timestamp: true }
 );
 
-const Products = mongoose.model("Products", ProductSchema);
-module.exports = Products;
+const Product = mongoose.model("Product", ProductSchema);
+module.exports = Product;
 
 // Hoan chinh Product Model

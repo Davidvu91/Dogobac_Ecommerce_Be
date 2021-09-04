@@ -14,4 +14,8 @@ router.use("/user", userRoute);
 const authRoute = require("./auth.api");
 router.use("/auth", authRoute);
 
+/**Category Router */
+const categoryRoute = require("./category.api");
+router.use("/category", categoryRoute);
+
 module.exports = router;

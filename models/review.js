@@ -3,11 +3,13 @@ const Schema = mongoose.Schema;
 
 const ReviewSchema = new Schema(
   {
-    content: { type: String, required: true },
-    starpoint: {
+    userId: { type: Schema.ObjectId, ref: "Users", required: true },
+    productId: { type: Schema.ObjectId, ref: "Products", required: true },
+    content: { type: String, default: "" },
+    rating: {
       type: Number,
-      required: true,
       enum: ["1", "2", "3", "4", "5"],
+      required: true,
     },
 
     isDeleted: { type: Boolean, default: false, select: false },
@@ -15,7 +17,5 @@ const ReviewSchema = new Schema(
   { timestamp: true }
 );
 
-const Reviews = mongoose.model("Reviews", ReviewSchema);
-module.exports = Reviews;
-
-// Hoan chinh Product Model
+const Review = mongoose.model("Review", ReviewSchema);
+module.exports = Review;
