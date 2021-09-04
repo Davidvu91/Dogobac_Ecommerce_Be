@@ -39,7 +39,7 @@ userController.createAccountWithEmail = catchAsync(async (req, res, next) => {
 });
 
 userController.updateUserInfo = catchAsync(async (req, res, next) => {
-  const { userId } = req;
+  const { userId } = req.body;
   const { name } = req.body;
   let user = await User.findById(userId);
   if (!user)
