@@ -10,20 +10,12 @@ const ProductSchema = new Schema(
     Price: { type: Number, required: true, trim: true },
     status: { type: String, required: true },
     category: {
-      type: String,
-      trim: true,
+      type: Schema.ObjectId,
+      ref: "Category",
       required: true,
-      enum: [
-        "bed",
-        "closet",
-        "sofa",
-        "dining table",
-        "tv shelf",
-        "salon",
-        "dressing table",
-        "shoe cabinet",
-      ],
+      trim: true,
     },
+
     imageUrl: [
       { imageUrl1: { type: String, required: true } },
       { imageUrl2: { type: String, required: true } },
@@ -40,3 +32,18 @@ const Product = mongoose.model("Product", ProductSchema);
 module.exports = Product;
 
 // Hoan chinh Product Model
+// category: {
+//   type: String,
+//   trim: true,
+//   required: true,
+//   enum: [
+//     "bed",
+//     "closet",
+//     "sofa",
+//     "dining table",
+//     "tv shelf",
+//     "salon",
+//     "dressing table",
+//     "shoe cabinet",
+//   ],
+// },
