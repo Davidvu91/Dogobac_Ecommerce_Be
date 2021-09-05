@@ -4,7 +4,7 @@ const adminMiddleware = async (req, res, next) => {
   try {
     // get user infomation to check is admin ?
     const user = await User.findOne({
-      _id: req.user.id,
+      _id: req.userId,
     });
 
     if (user.role === 0) {

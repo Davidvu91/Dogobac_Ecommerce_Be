@@ -81,7 +81,9 @@ categoryController.deleteCategory = catchAsync(async (req, res, next) => {
 
 // Get all Category Controller
 categoryController.takeCategory = catchAsync(async (req, res, next) => {
-  let categories = await Category.find();
+  let categories = await Category.find({});
+  if (!categories)
+    return new AppError(500, "Server Error", "Get Category fail");
   return sendResponse(
     res,
     200,
@@ -89,6 +91,19 @@ categoryController.takeCategory = catchAsync(async (req, res, next) => {
     { categories },
     null,
     "You rceived all categories"
+  );
+});
+
+// Get Single Category Controller
+categoryController.getSingleCategory = catchAsync(async (req, res, next) => {
+  let singleCategory = req.category;
+  sendResponse(
+    res,
+    200,
+    true,
+    { singleCategory },
+    null,
+    "Successfully get single category"
   );
 });
 

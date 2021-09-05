@@ -1,11 +1,12 @@
 const utilHelpers = require("../helpers/utilhelper");
-const { catchAsync, AppError } = require("../helpers/utilhelper");
+const { catchAsync, AppError, sendResponse } = require("../helpers/utilhelper");
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
 const { findById } = require("../models/User");
 
 const userController = {};
 
+// Create user info controller
 userController.createAccountWithEmail = catchAsync(async (req, res, next) => {
   let { email, name, password } = req.body;
   // Check if data is enough infomation?
@@ -38,6 +39,7 @@ userController.createAccountWithEmail = catchAsync(async (req, res, next) => {
   );
 });
 
+// Update user info controller
 userController.updateUserInfo = catchAsync(async (req, res, next) => {
   const { userId } = req.body;
   const { name } = req.body;
@@ -55,6 +57,39 @@ userController.updateUserInfo = catchAsync(async (req, res, next) => {
     { user },
     null,
     "Your Infor was updated successfully"
+  );
+});
+
+// Delete user info controller
+userController.deleteUserInfo = catchAsync(async (req, res, next) => {
+  console.log(req.body);
+  let { userId } = req.userId;
+  let user = await User.findById({ userId });
+  if (!user) {
+    return next(new AppError(300, "User not found", "Delete User fail"));
+  }
+  user = await User.findByIdAndDelete({ userId });
+  return sendResponse(
+    res,
+    200,
+    true,
+    null,
+    null,
+    "Successfully deleted User account"
+  );
+});
+
+// Get all user info controller
+userController.getAllUserInfo = catchAsync(async (req, res, next) => {
+  let data = await User.find({});
+  if (!data) return next(new AppError(500, "Server Error", "Can not get data"));
+  return sendResponse(
+    res,
+    200,
+    true,
+    { data },
+    null,
+    "You get all User information"
   );
 });
 
