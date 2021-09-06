@@ -6,21 +6,13 @@ const ProductSchema = new Schema(
     name: { type: String, required: true, trim: true },
     dimension: { type: String, required: true, trim: true },
     material: { type: String, required: true, trim: true },
-    productInfo: { type: String, required: true },
-    Price: { type: Number, required: true, trim: true },
-    status: { type: String, required: true },
-    category: {
-      type: Schema.ObjectId,
-      ref: "Category",
-      required: true,
-      trim: true,
-    },
-
-    imageUrl: [
-      { imageUrl1: { type: String, required: true } },
-      { imageUrl2: { type: String, required: true } },
-      { imageUrl3: { type: String, required: true } },
-    ],
+    description: { type: String, required: true },
+    price: { type: Number, required: true, trim: true },
+    status: { type: String },
+    category: { type: String, required: true, trim: true },
+    quantity: { type: Number },
+    shipping: { type: String },
+    imageUrl: [{ type: String, required: true }],
     review: [{ type: Schema.ObjectId, ref: "Review" }],
 
     isDeleted: { type: Boolean, default: false, select: false },

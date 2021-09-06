@@ -18,4 +18,8 @@ router.use("/user", userRoute);
 const categoryRoute = require("./category.api");
 router.use("/category", categoryRoute);
 
+/**Product Router */
+const productRoute = require("./product.api");
+router.use("/product", productRoute);
+
 module.exports = router;
