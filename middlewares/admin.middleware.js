@@ -6,6 +6,7 @@ const adminMiddleware = async (req, res, next) => {
     const user = await User.findOne({
       _id: req.userId,
     });
+    console.log("vai tro cua minh la", user.role);
 
     if (user.role === 0) {
       return res.status(403).json({ error: "User must be admin" });

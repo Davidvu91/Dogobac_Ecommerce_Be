@@ -13,6 +13,7 @@ isAuthMiddleware.loginRequired = (req, res, next) => {
     const token = tokenString.replace("Bearer ", "");
     console.log({ token, JWT_SECRET_KEY });
     jwt.verify(token, JWT_SECRET_KEY, (err, payload) => {
+      console.log("payload nhu the nay:", payload);
       if (err) {
         if (err.name === "TokenExpiredError") {
           return next(
@@ -26,6 +27,7 @@ isAuthMiddleware.loginRequired = (req, res, next) => {
       }
 
       req.userId = payload._id;
+      console.log("userID o day>>>>>", req.userId);
     });
     next();
   } catch (error) {

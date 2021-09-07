@@ -30,7 +30,7 @@ productController.createProduct = catchAsync(async (req, res, next) => {
     !description ||
     !price ||
     !category ||
-    !imageUrl
+    imageUrl.length === 0
   ) {
     return next(
       new AppError(400, "Khong du data roi bao ei", "create product fail")
@@ -58,6 +58,22 @@ productController.createProduct = catchAsync(async (req, res, next) => {
     null,
     "Create product successfully"
   );
+});
+
+productController.updateProduct = catchAsync(async (req, res, next) => {
+  let {
+    name,
+    dimension,
+    material,
+    description,
+    price,
+    category,
+    imageUrl,
+    status,
+    quantity,
+    shipping,
+  } = req.body;
+  let { productId } = req.params;
 });
 
 module.exports = productController;

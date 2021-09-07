@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const jwt = require("jsonwebtoken");
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
+const { AppError } = require("../helpers/utilhelper");
+const bcrypt = require("bcrypt");
 
 const UserSchema = new Schema(
   {
@@ -31,4 +33,27 @@ UserSchema.methods.generateToken = async function () {
 };
 
 const Users = mongoose.model("Users", UserSchema);
+
+//hash plain password before create an Admin:
+const plainPassword = "david123";
+const saltRounds = 10;
+const hash = bcrypt.hashSync(plainPassword, saltRounds);
+
+// Create an Amin of the Application:
+const Admin = new Users({
+  name: "David",
+  email: "david@example.com.vn",
+  password: hash,
+  role: 1,
+  address: "Vungtau City",
+  avataUrl:
+    "https://scontent.fvca1-4.fna.fbcdn.net/v/t1.6435-9/166712516_239728601170584_1469724544531488164_n.jpg?_nc_cat=101&ccb=1-5&_nc_sid=174925&_nc_ohc=agD1u-TxDOQAX9om2Ja&_nc_ht=scontent.fvca1-4.fna&oh=4df7749f8b8294cd7870a433dffcae41&oe=615BD77B",
+});
+
+Admin.save(async (err) => {
+  if (err) return new AppError(400, "create admin fail", "server error");
+});
+
+// console.log("haha, new admin", Admin);
+
 module.exports = Users;

@@ -97,7 +97,7 @@ categoryController.takeCategory = catchAsync(async (req, res, next) => {
 // Get Single Category Controller
 categoryController.getSingleCategory = catchAsync(async (req, res, next) => {
   let singleCategory = req.category;
-  sendResponse(
+  return sendResponse(
     res,
     200,
     true,

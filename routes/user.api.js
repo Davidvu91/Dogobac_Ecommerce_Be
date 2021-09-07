@@ -1,6 +1,7 @@
 const express = require("express");
 const userController = require("../controllers/user.controller");
 const adminMiddleware = require("../middlewares/admin.middleware");
+const getSingleUserById = require("../middlewares/getSingleUser");
 const isAuthMiddleware = require("../middlewares/isAuth.middleware");
 const router = express.Router();
 
@@ -14,29 +15,43 @@ const router = express.Router();
 router.post("/create", userController.createAccountWithEmail);
 
 /**
- * @Path : localhost:5000/user/update/:userId
+ * @Path : localhost:5000/user/:userId
  * @Method : PUT
  * @Access : Login requred
  * @Description : Update existed user account
  */
 
 router.put(
-  "/update/:userId",
+  "/:userId",
   isAuthMiddleware.loginRequired,
   userController.updateUserInfo
 );
 
 /**
- * @Path : localhost:5000/user/delete/:userId
+ * @Path : localhost:5000/user/:userId
  * @Method : DELETE
  * @Access : Login requred
  * @Description : Delete existed user account
  */
 
 router.delete(
-  "/delete/:userId",
+  "/:userId",
   isAuthMiddleware.loginRequired,
   userController.deleteUserInfo
+);
+
+/**
+ * @Path : localhost:5000/user/:userId
+ * @Method : GET
+ * @Access : Login required
+ * @Description : Get single user info
+ */
+
+router.get(
+  "/:userId",
+  isAuthMiddleware.loginRequired,
+  getSingleUserById,
+  userController.getSingleUserInfo
 );
 
 /**

@@ -79,6 +79,20 @@ userController.deleteUserInfo = catchAsync(async (req, res, next) => {
   );
 });
 
+// Get Single user info controller
+userController.getSingleUserInfo = catchAsync(async (req, res) => {
+  console.log(req.user);
+  const user = req.user;
+  return sendResponse(
+    res,
+    200,
+    true,
+    { user },
+    null,
+    "get Single User successfully"
+  );
+});
+
 // Get all user info controller
 userController.getAllUserInfo = catchAsync(async (req, res, next) => {
   let data = await User.find({});
