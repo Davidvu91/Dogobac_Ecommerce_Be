@@ -14,7 +14,6 @@ const ProductSchema = new Schema(
     shipping: { type: String },
     imageUrl: [{ type: String, required: true }],
     review: [{ type: Schema.ObjectId, ref: "Review" }],
-
     isDeleted: { type: Boolean, default: false, select: false },
   },
   { timestamp: true }

@@ -22,4 +22,8 @@ router.use("/category", categoryRoute);
 const productRoute = require("./product.api");
 router.use("/product", productRoute);
 
+/**Review Router */
+const reviewRoute = require("./review.api");
+router.use("/review", reviewRoute);
+
 module.exports = router;

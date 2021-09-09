@@ -19,6 +19,14 @@ router.post(
 );
 
 /**
+ * @Path : localhost:5000/product/list
+ * @Method : GET
+ * @Access : Public
+ * @Description : Get list of products
+ */
+router.get("/list", productController.getAllProducts);
+
+/**
  * @Path : localhost:5000/product/:productId
  * @Method : PUT
  * @Access : admin required
@@ -42,13 +50,5 @@ router.get(
   getSingleProductById,
   productController.getSingleProduct
 );
-
-/**
- * @Path : localhost:5000/product/list
- * @Method : GET
- * @Access : Public
- * @Description : Get all products
- */
-router.get("/list", productController.getAllProducts);
 
 module.exports = router;

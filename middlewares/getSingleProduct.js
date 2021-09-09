@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Product = require("../models/Product");
+const Review = require("../models/review");
 
 const getSingleProductById = async function (req, res, next) {
   const { productId } = req.params;
@@ -8,7 +9,7 @@ const getSingleProductById = async function (req, res, next) {
   }
 
   try {
-    let product = await Product.findById(productId);
+    let product = await Product.findById(productId).populate("review");
     if (!product) {
       return res.status(403).json({ error: "Product not found" });
     }

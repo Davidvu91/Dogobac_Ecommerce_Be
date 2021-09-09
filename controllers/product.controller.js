@@ -1,4 +1,6 @@
 const Product = require("../models/Product");
+const Review = require("../models/review");
+const User = require("../models/User");
 const { catchAsync, AppError, sendResponse } = require("../helpers/utilhelper");
 
 //Init Product Controller Collection:
@@ -132,9 +134,31 @@ productController.getSingleProduct = async (req, res) => {
   );
 };
 
-// GET ALL PRODUCTS CONTROLLER
-productController.getAllProducts = async (req, res) => {
-  console.log(req);
-};
+// GET LIST OF PRODUCTS CONTROLLER
+productController.getAllProducts = catchAsync(async (req, res, next) => {
+  let order = req.query.order ? req.query.order : "asc";
+  let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
+  let limit = req.query.limit ? parseInt(req.query.limit) : 8;
+  let page = req.query.page ? req.query.page : 1;
+  let totalProducts = await Product.count({});
+  console.log("Tổng số sản phẩm là:", totalProducts);
+
+  let totalPage = Math.ceil(totalProducts / limit);
+  let offset = limit * (page - 1);
+  let products = await Product.find({})
+    .populate("review")
+    .sort([[sortBy, order]])
+    .limit(limit)
+    .skip(offset);
+
+  return sendResponse(
+    res,
+    200,
+    true,
+    { totalPage, products },
+    null,
+    "Get products successfully"
+  );
+});
 
 module.exports = productController;
