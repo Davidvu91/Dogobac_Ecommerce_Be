@@ -60,6 +60,7 @@ productController.createProduct = catchAsync(async (req, res, next) => {
   );
 });
 
+// Update Single Product controller:
 productController.updateProduct = catchAsync(async (req, res, next) => {
   let {
     name,
@@ -74,6 +75,66 @@ productController.updateProduct = catchAsync(async (req, res, next) => {
     shipping,
   } = req.body;
   let { productId } = req.params;
+
+  let product = await Product.findById(productId);
+  if (!product) {
+    return next(new AppError(300, "Product not found", "Update product fail"));
+  }
+  if (
+    !name &&
+    !dimension &&
+    !material &&
+    !description &&
+    !price &&
+    !category &&
+    !imageUrl &&
+    !status &&
+    !quantity &&
+    !shipping
+  ) {
+    return next(new AppError(300, "No new change", "Product upadate error"));
+  }
+  product = await Product.findByIdAndUpdate(
+    productId,
+    {
+      name,
+      dimension,
+      material,
+      description,
+      price,
+      category,
+      imageUrl,
+      status,
+      shipping,
+    },
+    { new: true }
+  );
+  return sendResponse(
+    res,
+    200,
+    true,
+    { product },
+    null,
+    "Your product successfully updated"
+  );
 });
+
+// GET SINGLE PRODUCT BY ID CONTROLLER
+productController.getSingleProduct = async (req, res) => {
+  let product = req.product;
+  return sendResponse(
+    res,
+    200,
+    true,
+    product,
+    null,
+    " get single product successfully"
+  );
+};
+
+// GET ALL PRODUCTS CONTROLLER
+productController.getAllProducts = async (req, res) => {
+  console.log(req);
+};
 
 module.exports = productController;

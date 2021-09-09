@@ -11,6 +11,10 @@ authController.loginWithEmail = catchAsync(async (req, res, next) => {
   // Distructrering data receive from frontend:
   let { email, password } = req.body;
 
+  //check if enough data:
+  if (!email || !password)
+    return next(new AppError(400, "Not enough data", "Login fail"));
+
   // Check user:
   let user = await User.findOne({ email });
   if (!user) return next(new AppError(400, "User not found", "Login fail"));

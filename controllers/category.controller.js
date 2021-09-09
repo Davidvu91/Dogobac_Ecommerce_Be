@@ -31,23 +31,16 @@ categoryController.createCategory = catchAsync(async (req, res, next) => {
 // Update Category Controller
 categoryController.updateCategory = catchAsync(async (req, res, next) => {
   console.log(req.body);
-  let { name, categoryId } = req.body;
-  let category = await Category.findById({ categoryId });
-  if (!categoryId) {
-    return next(
-      new AppError(400, "category is not found", "Update Category fail")
-    );
-  }
+  let category = req.category;
+  let { name } = req.body;
   if (!name) {
     return next(
       new AppError(400, "No category is changed", "Update Category fail")
     );
+  } else {
+    category.name = name.trim().toLowerCase();
+    category = await category.save();
   }
-  category = await Category.findByIdAndUpdate(
-    categoryId,
-    { name },
-    { new: true }
-  );
   return sendResponse(
     res,
     200,

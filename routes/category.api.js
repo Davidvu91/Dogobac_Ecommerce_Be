@@ -19,26 +19,27 @@ router.post(
 );
 
 /**
- * @Path : localhost:5000/caterory/update
+ * @Path : localhost:5000/caterory/:categoryId
  * @Method : PUT
  * @Access : admin
  * @Description : Update a category
  */
 router.put(
-  "/update/:categoryId",
+  "/:categoryId",
   isAuthMiddleware.loginRequired,
   adminMiddleware,
+  getSingleCategoryById,
   categoryController.updateCategory
 );
 
 /**
- * @Path : localhost:5000/caterory/delete
+ * @Path : localhost:5000/caterory/:categoryId
  * @Method : DELETE
  * @Access : admin
  * @Description : Delete acategory
  */
 router.delete(
-  "/delete/:categoryId",
+  "/:categoryId",
   isAuthMiddleware.loginRequired,
   adminMiddleware,
   categoryController.deleteCategory

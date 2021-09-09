@@ -2,7 +2,7 @@ const utilHelpers = require("../helpers/utilhelper");
 const { catchAsync, AppError, sendResponse } = require("../helpers/utilhelper");
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
-const { findById } = require("../models/User");
+// const { findById } = require("../models/User");
 
 const userController = {};
 
@@ -41,15 +41,19 @@ userController.createAccountWithEmail = catchAsync(async (req, res, next) => {
 
 // Update user info controller
 userController.updateUserInfo = catchAsync(async (req, res, next) => {
-  const { userId } = req.body;
-  const { name } = req.body;
+  const { userId } = req.userId;
+  const { name, email, avataUrl, address } = req.body;
   let user = await User.findById(userId);
   if (!user)
     return next(new AppError(300, "User not found", "User update Error"));
-  if (!name)
+  if (!name && !email && !avataUrl && !address)
     return next(new AppError(300, "No new change", "User update Error"));
-  user = await User.findByIdAndUpdate(userId, { name }, { new: true });
 
+  user = await User.findByIdAndUpdate(
+    userId,
+    { name, email, avataUrl, address },
+    { new: true }
+  );
   return utilHelpers.sendResponse(
     res,
     200,
