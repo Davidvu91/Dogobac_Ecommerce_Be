@@ -18,4 +18,17 @@ router.post(
   reviewController.createReview
 );
 
+/**
+ * @path : localhost:5000/review/:productId
+ * @method: GET
+ * @access: public
+ * @description: Get all review of Single Product
+ */
+
+router.get(
+  "/:productId",
+  getSingleProductById,
+  reviewController.getReviewsOfSingleProduct
+);
+
 module.exports = router;

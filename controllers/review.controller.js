@@ -36,9 +36,10 @@ reviewController.createReview = catchAsync(async (req, res, next) => {
     rating,
   });
   //Update th review to the prodcut doccument:
-  let product = await Product.findByIdAndUpdate(
+  let product = await Product.findById(targetProduct);
+  product = await Product.findByIdAndUpdate(
     targetProduct,
-    { review: review._id },
+    { review: [...product.review, review._id] },
     { new: true }
   );
 
@@ -51,5 +52,21 @@ reviewController.createReview = catchAsync(async (req, res, next) => {
     "create review successfully"
   );
 });
+
+// GET ALL REIVIEWS OF A SINGLE PRODUCT CONTROLLER
+reviewController.getReviewsOfSingleProduct = catchAsync(
+  async (req, res, next) => {
+    let product = req.product;
+    let reviews = product.review;
+    return sendResponse(
+      res,
+      200,
+      true,
+      reviews,
+      null,
+      `you successfully get reviews of ${product.name}`
+    );
+  }
+);
 
 module.exports = reviewController;

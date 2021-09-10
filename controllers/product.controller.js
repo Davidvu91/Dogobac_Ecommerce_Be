@@ -6,7 +6,7 @@ const { catchAsync, AppError, sendResponse } = require("../helpers/utilhelper");
 //Init Product Controller Collection:
 const productController = {};
 
-// Create Product controller:
+// CREATE PRODUCT CONTROOLER:
 productController.createProduct = catchAsync(async (req, res, next) => {
   let data = req.body;
   console.log("minh nhan duoc data nhu nay thoi:", data);
@@ -62,7 +62,7 @@ productController.createProduct = catchAsync(async (req, res, next) => {
   );
 });
 
-// Update Single Product controller:
+// UPDATE SINGLE PRODUCT CONTROLLER:
 productController.updateProduct = catchAsync(async (req, res, next) => {
   let {
     name,
@@ -121,6 +121,20 @@ productController.updateProduct = catchAsync(async (req, res, next) => {
   );
 });
 
+// DELETE A SINGLE PRODUCT CONTROLLER
+productController.deleteProduct = async (req, res) => {
+  let product = req.product;
+  try {
+    let deletedProduct = await product.remove();
+    res.json({
+      message: `${deletedProduct.name} deleted successfully`,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Server error");
+  }
+};
+
 // GET SINGLE PRODUCT BY ID CONTROLLER
 productController.getSingleProduct = async (req, res) => {
   let product = req.product;
@@ -134,12 +148,35 @@ productController.getSingleProduct = async (req, res) => {
   );
 };
 
+// GET A LIST OF RELATED TO A PRODUCT CONTROLLER
+productController.getRelatedProducts = async (req, res) => {
+  let limit = req.query.limit ? parseInt(req.query.limit) : 4;
+  let sortBy = req.query.sortBy ? req.query.sortBy : "createdAt";
+  let order = req.query.order ? req.query.order : "desc";
+  let category = req.product.category;
+  console.log(category);
+  try {
+    let products = await Product.find({
+      _id: { $ne: req.product },
+      category,
+    })
+      .limit(limit)
+      .sort([[sortBy, order]])
+      .populate("review");
+
+    res.json(products);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Invalid queries");
+  }
+};
+
 // GET LIST OF PRODUCTS CONTROLLER
 productController.getAllProducts = catchAsync(async (req, res, next) => {
   let order = req.query.order ? req.query.order : "asc";
   let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
   let limit = req.query.limit ? parseInt(req.query.limit) : 8;
-  let page = req.query.page ? req.query.page : 1;
+  let page = req.query.page ? parseInt(req.query.page) : 1;
   let totalProducts = await Product.count({});
   console.log("Tổng số sản phẩm là:", totalProducts);
 
@@ -160,5 +197,31 @@ productController.getAllProducts = catchAsync(async (req, res, next) => {
     "Get products successfully"
   );
 });
+
+// GET LIST OF PRODUCTS BY SEARCH QUERY CONTROLLER
+productController.getListProductsBySearch = async (req, res) => {
+  // create query object to hold search value and category value
+  const query = {};
+  // assign search value to query.name
+  if (req.query.search) {
+    query.name = {
+      $regex: req.query.search,
+      $options: "i",
+    };
+    // assign category value to query.category:
+    if (req.query.category && req.query.category != "All") {
+      query.category = req.query.category;
+    }
+  }
+  try {
+    let products = await Product.find(query).populate("review");
+    let totalProducts = await Product.count(query);
+    console.log("tong san pham search duoc:", totalProducts);
+    res.json(products);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Error to get products");
+  }
+};
 
 module.exports = productController;

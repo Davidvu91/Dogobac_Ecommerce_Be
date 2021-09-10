@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const ReviewSchema = new Schema(
   {
     owner: { type: Schema.ObjectId, ref: "Users", required: true },
-    targetProduct: { type: Schema.ObjectId, ref: "Products", required: true },
+    targetProduct: { type: Schema.ObjectId, ref: "Product", required: true },
     content: { type: String, default: "" },
     rating: {
       type: Number,
@@ -12,9 +12,9 @@ const ReviewSchema = new Schema(
       required: true,
     },
 
-    isDeleted: { type: Boolean, default: false, select: false },
+    isDeleted: { type: Boolean, default: false },
   },
-  { timestamp: true }
+  { timestamps: true }
 );
 
 const Review = mongoose.model("Review", ReviewSchema);

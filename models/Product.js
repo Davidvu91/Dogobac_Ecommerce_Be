@@ -8,33 +8,33 @@ const ProductSchema = new Schema(
     material: { type: String, required: true, trim: true },
     description: { type: String, required: true },
     price: { type: Number, required: true, trim: true },
+    averageRating: { type: Number },
     status: { type: String },
-    category: { type: String, required: true, trim: true },
+    category: {
+      type: String,
+      trim: true,
+      required: true,
+      enum: [
+        "giường",
+        "tủ áo",
+        "sofa",
+        "bàn ăn",
+        "kệ tivi",
+        "salon",
+        "bàn trang điểm",
+        "tủ giày",
+      ],
+    },
     quantity: { type: Number },
     shipping: { type: String },
-    imageUrl: [{ type: String, required: true }],
+    imageUrl: [{ type: String }],
     review: [{ type: Schema.ObjectId, ref: "Review" }],
-    isDeleted: { type: Boolean, default: false, select: false },
+    isDeleted: { type: Boolean, default: false },
   },
-  { timestamp: true }
+  { timestamps: true }
 );
 
 const Product = mongoose.model("Product", ProductSchema);
 module.exports = Product;
 
 // Hoan chinh Product Model
-// category: {
-//   type: String,
-//   trim: true,
-//   required: true,
-//   enum: [
-//     "bed",
-//     "closet",
-//     "sofa",
-//     "dining table",
-//     "tv shelf",
-//     "salon",
-//     "dressing table",
-//     "shoe cabinet",
-//   ],
-// },

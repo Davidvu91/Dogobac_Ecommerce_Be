@@ -27,6 +27,14 @@ router.post(
 router.get("/list", productController.getAllProducts);
 
 /**
+ * @Path : localhost:5000/product/search
+ * @Method : GET
+ * @Access : Public
+ * @Description : Get list of products by SEARCH query
+ */
+router.get("/search", productController.getListProductsBySearch);
+
+/**
  * @Path : localhost:5000/product/:productId
  * @Method : PUT
  * @Access : admin required
@@ -41,14 +49,43 @@ router.put(
 
 /**
  * @Path : localhost:5000/product/:productId
+ * @Method : DELETE
+ * @Access : Admin required
+ * @Description : Get single Product by Id
+ */
+
+router.delete(
+  "/:productId",
+  isAuthMiddleware.loginRequired,
+  adminMiddleware,
+  getSingleProductById,
+  productController.deleteProduct
+);
+
+/**
+ * @Path : localhost:5000/product/:productId
  * @Method : GET
  * @Access : Public
  * @Description : Get single Product by Id
  */
+
 router.get(
   "/:productId",
   getSingleProductById,
   productController.getSingleProduct
+);
+
+/**
+ * @Path : localhost:5000/product/related/:productId
+ * @Method : GET
+ * @Access : Public
+ * @Description : Get related products
+ */
+
+router.get(
+  "/related/:productId",
+  getSingleProductById,
+  productController.getRelatedProducts
 );
 
 module.exports = router;

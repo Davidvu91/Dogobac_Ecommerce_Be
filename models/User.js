@@ -22,7 +22,7 @@ const UserSchema = new Schema(
     },
     isDeleted: { type: Boolean, default: false, select: false },
   },
-  { timestamp: true }
+  { timestamps: true }
 );
 
 UserSchema.methods.generateToken = async function () {
@@ -35,24 +35,24 @@ UserSchema.methods.generateToken = async function () {
 const Users = mongoose.model("Users", UserSchema);
 
 //hash plain password before create an Admin:
-const plainPassword = "david123";
-const saltRounds = 10;
-const hash = bcrypt.hashSync(plainPassword, saltRounds);
+// const plainPassword = "david123";
+// const saltRounds = 10;
+// const hash = bcrypt.hashSync(plainPassword, saltRounds);
 
 // Create an Amin of the Application:
-const Admin = new Users({
-  name: "David",
-  email: "david@example.com.vn",
-  password: hash,
-  role: 1,
-  address: "Vungtau City",
-  avataUrl:
-    "https://scontent.fvca1-4.fna.fbcdn.net/v/t1.6435-9/166712516_239728601170584_1469724544531488164_n.jpg?_nc_cat=101&ccb=1-5&_nc_sid=174925&_nc_ohc=agD1u-TxDOQAX9om2Ja&_nc_ht=scontent.fvca1-4.fna&oh=4df7749f8b8294cd7870a433dffcae41&oe=615BD77B",
-});
+// const Admin = new Users({
+//   name: "David",
+//   email: "david@example.com",
+//   password: hash,
+//   role: 2,
+//   address: "Vungtau City",
+//   avataUrl:
+//     "https://scontent.fvca1-4.fna.fbcdn.net/v/t1.6435-9/166712516_239728601170584_1469724544531488164_n.jpg?_nc_cat=101&ccb=1-5&_nc_sid=174925&_nc_ohc=agD1u-TxDOQAX9om2Ja&_nc_ht=scontent.fvca1-4.fna&oh=4df7749f8b8294cd7870a433dffcae41&oe=615BD77B",
+// });
 
-Admin.save(async (err) => {
-  if (err) return new AppError(400, "create admin fail", "server error");
-});
+// Admin.save(async (err) => {
+//   if (err) return new AppError(400, "create admin fail", "server error");
+// });
 
 // console.log("haha, new admin", Admin);
 
