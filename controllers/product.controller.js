@@ -192,13 +192,13 @@ productController.getAllProducts = catchAsync(async (req, res, next) => {
     res,
     200,
     true,
-    { totalPage, products },
+    { totalPage, products, totalProducts },
     null,
     "Get products successfully"
   );
 });
 
-// GET LIST OF PRODUCTS BY SEARCH QUERY CONTROLLER
+// GET LIST OF PRODUCTS BY SEARCH QUERY (BY NAME AND CATEGORY) CONTROLLER
 productController.getListProductsBySearch = async (req, res) => {
   // create query object to hold search value and category value
   const query = {};
@@ -213,6 +213,7 @@ productController.getListProductsBySearch = async (req, res) => {
       query.category = req.query.category;
     }
   }
+  console.log("query Object to search:", query);
   try {
     let products = await Product.find(query).populate("review");
     let totalProducts = await Product.count(query);
@@ -221,6 +222,42 @@ productController.getListProductsBySearch = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).send("Error to get products");
+  }
+};
+
+// GET PRODUCTS FILTERD BY CATEGORY (option: order, sortBy, limit)
+productController.getListProductsByCategoryAndPrice = async (req, res) => {
+  let order = req.query.order ? req.query.order : "desc";
+  let sortBy = req.query.sortBy ? req.query.sortBy : "createdAt";
+  let limit = req.query.limit ? parseInt(req.query.limit) : 8;
+  let page = req.query.page ? parseInt(req.query.page) : 1;
+  let selectedCategory = req.query.category ? req.query.category : "";
+
+  try {
+    const totalProductByCategory = await Product.count({
+      category: selectedCategory,
+    });
+    console.log(totalProductByCategory);
+    let totalPages = Math.ceil(totalProductByCategory / limit);
+    let offset = limit * (page - 1);
+    const products = await Product.find({
+      category: selectedCategory,
+    })
+      .populate("review")
+      .sort([[sortBy, order]])
+      .skip(offset)
+      .limit(limit);
+    return sendResponse(
+      res,
+      200,
+      true,
+      { products, totalPages },
+      null,
+      "Get products by category successfylly"
+    );
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Invalid queries");
   }
 };
 

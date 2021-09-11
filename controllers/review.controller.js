@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const { catchAsync, AppError, sendResponse } = require("../helpers/utilhelper");
 const Review = require("../models/review");
 const Product = require("../models/Product");
+const Users = require("../models/User");
 
 const reviewController = {};
 
@@ -35,7 +36,7 @@ reviewController.createReview = catchAsync(async (req, res, next) => {
     content,
     rating,
   });
-  //Update th review to the prodcut doccument:
+  //Update the review to the Prodcut collection:
   let product = await Product.findById(targetProduct);
   product = await Product.findByIdAndUpdate(
     targetProduct,
@@ -43,11 +44,21 @@ reviewController.createReview = catchAsync(async (req, res, next) => {
     { new: true }
   );
 
+  //Update the review to the User collection:
+  let user = await Users.findById(owner);
+  user = await Users.findByIdAndUpdate(
+    owner,
+    {
+      review: [...user.review, review._id],
+    },
+    { new: true }
+  );
+
   return sendResponse(
     res,
     200,
     true,
-    { review, product },
+    { review, product, user },
     null,
     "create review successfully"
   );

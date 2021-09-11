@@ -6,6 +6,20 @@ const isAuthMiddleware = require("../middlewares/isAuth.middleware");
 const router = express.Router();
 
 /**
+ * @Path : localhost:5000/user/getall
+ * @Method : GET
+ * @Access : Admin required
+ * @Description : Get All existed user account
+ */
+
+router.get(
+  "/getall",
+  isAuthMiddleware.loginRequired,
+  adminMiddleware,
+  userController.getAllUserInfo
+);
+
+/**
  * @Path : localhost:5000/user/create
  * @Method : POST
  * @Access : public
@@ -15,57 +29,43 @@ const router = express.Router();
 router.post("/create", userController.createAccountWithEmail);
 
 /**
- * @Path : localhost:5000/user/:userId
+ * @Path : localhost:5000/user/update
  * @Method : PUT
  * @Access : Login requred
  * @Description : Update existed user account
  */
 
 router.put(
-  "/:userId",
+  "/update",
   isAuthMiddleware.loginRequired,
   userController.updateUserInfo
 );
 
 /**
- * @Path : localhost:5000/user/:userId
+ * @Path : localhost:5000/user/delete
  * @Method : DELETE
  * @Access : Login requred
  * @Description : Delete existed user account
  */
 
 router.delete(
-  "/:userId",
+  "/delete",
   isAuthMiddleware.loginRequired,
   userController.deleteUserInfo
 );
 
 /**
- * @Path : localhost:5000/user/:userId
+ * @Path : localhost:5000/user/info
  * @Method : GET
  * @Access : Login required
  * @Description : Get single user info
  */
 
 router.get(
-  "/:userId",
+  "/info",
   isAuthMiddleware.loginRequired,
   getSingleUserById,
   userController.getSingleUserInfo
-);
-
-/**
- * @Path : localhost:5000/user/getAll
- * @Method : GET
- * @Access : Admin required
- * @Description : Get All existed user account
- */
-
-router.get(
-  "/getAll",
-  isAuthMiddleware.loginRequired,
-  adminMiddleware,
-  userController.getAllUserInfo
 );
 
 module.exports = router;

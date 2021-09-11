@@ -30,9 +30,17 @@ router.get("/list", productController.getAllProducts);
  * @Path : localhost:5000/product/search
  * @Method : GET
  * @Access : Public
- * @Description : Get list of products by SEARCH query
+ * @Description : Get list of products by SEARCH query (buy name and option: category)
  */
 router.get("/search", productController.getListProductsBySearch);
+
+/**
+ * @Path : localhost:5000/product/filter
+ * @Method : GET
+ * @Access : Public
+ * @Description : Get list of products filtered by category (option: order, sortBy(price, createdAt...), limit)
+ */
+router.get("/filter", productController.getListProductsByCategoryAndPrice);
 
 /**
  * @Path : localhost:5000/product/:productId

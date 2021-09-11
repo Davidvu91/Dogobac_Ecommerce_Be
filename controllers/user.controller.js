@@ -41,7 +41,8 @@ userController.createAccountWithEmail = catchAsync(async (req, res, next) => {
 
 // Update user info controller
 userController.updateUserInfo = catchAsync(async (req, res, next) => {
-  const { userId } = req.userId;
+  const userId = req.userId;
+  console.log("userId sent from IsLogin middleware:", userId);
   const { name, email, avataUrl, address } = req.body;
   let user = await User.findById(userId);
   if (!user)
@@ -64,28 +65,29 @@ userController.updateUserInfo = catchAsync(async (req, res, next) => {
   );
 });
 
-// Delete user info controller
+// DELETE USER CONTROLLER
 userController.deleteUserInfo = catchAsync(async (req, res, next) => {
-  console.log(req.body);
-  let { userId } = req.userId;
-  let user = await User.findById({ userId });
-  if (!user) {
+  // console.log("Req Object:", req);
+  let userId = req.userId;
+  console.log("Id cua User sap bi xoa, ahihi:", userId);
+  let user = await User.findById(userId);
+  if (user.length === 0) {
     return next(new AppError(300, "User not found", "Delete User fail"));
   }
-  user = await User.findByIdAndDelete({ userId });
+  user = await User.findByIdAndDelete(userId);
   return sendResponse(
     res,
     200,
     true,
     null,
     null,
-    "Successfully deleted User account"
+    `Successfully delete ${user.name} account`
   );
 });
 
 // Get Single user info controller
 userController.getSingleUserInfo = catchAsync(async (req, res) => {
-  console.log(req.user);
+  console.log("req object to get single user", req.user);
   const user = req.user;
   return sendResponse(
     res,
@@ -99,13 +101,16 @@ userController.getSingleUserInfo = catchAsync(async (req, res) => {
 
 // Get all user info controller
 userController.getAllUserInfo = catchAsync(async (req, res, next) => {
-  let data = await User.find({});
-  if (!data) return next(new AppError(500, "Server Error", "Can not get data"));
+  let data = await User.find();
+  if (data.length === 0)
+    return next(new AppError(500, "Server Error", "Can not get data"));
+  let totalUser = await User.count();
+  console.log("tong so user hien tai la:", totalUser);
   return sendResponse(
     res,
     200,
     true,
-    { data },
+    { data, totalUser },
     null,
     "You get all User information"
   );
