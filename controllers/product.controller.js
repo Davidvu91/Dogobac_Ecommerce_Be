@@ -177,16 +177,28 @@ productController.getAllProducts = catchAsync(async (req, res, next) => {
   let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
   let limit = req.query.limit ? parseInt(req.query.limit) : 8;
   let page = req.query.page ? parseInt(req.query.page) : 1;
-  let totalProducts = await Product.count({});
-  console.log("Tổng số sản phẩm là:", totalProducts);
 
-  let totalPage = Math.ceil(totalProducts / limit);
   let offset = limit * (page - 1);
-  let products = await Product.find({})
+  // create query object to hold search value and category value
+  let query = {};
+  // assign search value to query.name
+  if (req.query.search) {
+    query.name = {
+      $regex: req.query.search,
+      $options: "i",
+    };
+  }
+
+  let products = await Product.find(query)
     .populate("review")
     .sort([[sortBy, order]])
     .limit(limit)
     .skip(offset);
+
+  let totalProducts = await Product.find(query).count(query);
+  console.log("Tổng số sản phẩm là:", totalProducts);
+
+  let totalPage = Math.ceil(totalProducts / limit);
 
   return sendResponse(
     res,

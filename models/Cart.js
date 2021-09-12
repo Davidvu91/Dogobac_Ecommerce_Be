@@ -3,14 +3,13 @@ const Schema = mongoose.Schema;
 
 const CartSchema = new Schema(
   {
-    userId: { type: Schema.ObjectId, ref: "Users", required: true },
+    owner: { type: Schema.ObjectId, ref: "Users", required: true },
     items: [
       {
-        type: { type: Schema.ObjectId, ref: "Product", required: true },
+        productId: { type: Schema.ObjectId, ref: "Product", required: true },
         quantity: { type: Number, required: true },
       },
     ],
-    status: {},
     isDeleted: { type: Boolean, default: false },
   },
   { timestamps: true }
@@ -21,3 +20,8 @@ module.exports = Cart;
 
 // { type: Schema.ObjectId, ref: "Product", required: true },
 // { quantity: { type: Number, required: true } },
+// status: {
+//   type: String,
+//   enum: ["empty", "pending", "paid"],
+//   required: true,
+// },
