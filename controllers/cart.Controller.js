@@ -34,6 +34,7 @@ cartController.createCart = catchAsync(async (req, res, next) => {
     owner,
     items: [{ productId, quantity }],
   });
+
   // Update the cart to User collection:
   let user = await Users.findById(owner);
   user = await Users.findByIdAndUpdate(

@@ -124,6 +124,7 @@ productController.updateProduct = catchAsync(async (req, res, next) => {
 // DELETE A SINGLE PRODUCT CONTROLLER
 productController.deleteProduct = async (req, res) => {
   let product = req.product;
+  console.log("product with related products", product);
   try {
     let deletedProduct = await product.remove();
     res.json({
@@ -149,27 +150,28 @@ productController.getSingleProduct = async (req, res) => {
 };
 
 // GET A LIST OF RELATED TO A PRODUCT CONTROLLER
-productController.getRelatedProducts = async (req, res) => {
-  let limit = req.query.limit ? parseInt(req.query.limit) : 4;
-  let sortBy = req.query.sortBy ? req.query.sortBy : "createdAt";
-  let order = req.query.order ? req.query.order : "desc";
-  let category = req.product.category;
-  console.log(category);
-  try {
-    let products = await Product.find({
-      _id: { $ne: req.product },
-      category,
-    })
-      .limit(limit)
-      .sort([[sortBy, order]])
-      .populate("review");
+// productController.getRelatedProducts = async (req, res) => {
+//   let limit = req.query.limit ? parseInt(req.query.limit) : 4;
+//   let sortBy = req.query.sortBy ? req.query.sortBy : "createdAt";
+//   let order = req.query.order ? req.query.order : "desc";
+//   let category = req.product.category;
+//   console.log(category);
+//   try {
+//     let products = await Product.find({
+//       _id: { $ne: req.product },
+//       category,
+//     })
+//       .limit(limit)
+//       .sort([[sortBy, order]])
+//       .populate("review");
 
-    res.json(products);
-  } catch (error) {
-    console.log(error);
-    res.status(500).send("Invalid queries");
-  }
-};
+//     res.json(products);
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).send("Invalid queries");
+//   }
+
+// };
 
 // GET LIST OF PRODUCTS CONTROLLER
 productController.getAllProducts = catchAsync(async (req, res, next) => {

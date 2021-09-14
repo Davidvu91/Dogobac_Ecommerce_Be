@@ -90,10 +90,10 @@ router.get(
  * @Description : Get related products
  */
 
-router.get(
-  "/related/:productId",
-  getSingleProductById,
-  productController.getRelatedProducts
-);
+// router.get(
+//   "/related/:productId",
+//   getSingleProductById,
+//   productController.getRelatedProducts
+// );
 
 module.exports = router;

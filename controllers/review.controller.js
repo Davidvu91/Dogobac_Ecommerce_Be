@@ -9,7 +9,7 @@ const reviewController = {};
 // CREATE A REVIEW CONTROLLER
 reviewController.createReview = catchAsync(async (req, res, next) => {
   let data = req.body;
-  console.log("minh nhan dc thong tin review nhu nay:", data);
+  // console.log("minh nhan dc thong tin review nhu nay:", data);
 
   const { content, rating } = data;
   const owner = req.userId;

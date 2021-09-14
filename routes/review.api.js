@@ -27,7 +27,7 @@ router.post(
 
 router.get(
   "/:productId",
-  getSingleProductById,
+
   reviewController.getReviewsOfSingleProduct
 );
 

@@ -6,7 +6,7 @@ const User = require("../models/User");
 
 const userController = {};
 
-// Create user info controller
+// CREATE USER CONTROLLER
 userController.createAccountWithEmail = catchAsync(async (req, res, next) => {
   let { email, name, password } = req.body;
   // Check if data is enough infomation?
@@ -39,7 +39,7 @@ userController.createAccountWithEmail = catchAsync(async (req, res, next) => {
   );
 });
 
-// Update user info controller
+// UPDATE USER INFO
 userController.updateUserInfo = catchAsync(async (req, res, next) => {
   const userId = req.userId;
   console.log("userId sent from IsLogin middleware:", userId);
@@ -85,7 +85,7 @@ userController.deleteUserInfo = catchAsync(async (req, res, next) => {
   );
 });
 
-// Get Single user info controller
+// GET SINGLE USER CONTROLLER
 userController.getSingleUserInfo = catchAsync(async (req, res) => {
   console.log("req object to get single user", req.user);
   const user = req.user;
