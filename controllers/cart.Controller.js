@@ -32,7 +32,7 @@ cartController.createCart = catchAsync(async (req, res, next) => {
   // Create a Cart:
   let cart = await Cart.create({
     owner,
-    items: [{ productId, quantity }],
+    items: { productId, quantity },
   });
 
   // Update the cart to User collection:
@@ -51,6 +51,31 @@ cartController.createCart = catchAsync(async (req, res, next) => {
     { cart, user },
     null,
     "create a cart succsessfully"
+  );
+});
+
+// DELETE SINGLE CART
+cartController.deleteCart = catchAsync(async (req, res) => {
+  // console.log(req);
+  const cartId = req.params.cartId;
+
+  if (!mongoose.Types.ObjectId.isValid(cartId)) {
+    throw new Error("id not exsit");
+  }
+
+  let cart = await Cart.findOne({ _id: cartId });
+  if (!cart) {
+    return new AppError(400, "cart not exist", "delete cart failure");
+  }
+
+  cart = await Cart.findByIdAndDelete(cartId);
+  return sendResponse(
+    res,
+    200,
+    true,
+    null,
+    null,
+    `delete cart ${cart._id} successfully!`
   );
 });
 

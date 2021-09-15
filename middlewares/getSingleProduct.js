@@ -16,7 +16,7 @@ const getSingleProductById = async function (req, res, next) {
     let product = await Product.findById(productId)
       .populate({
         path: "review",
-        populate: { path: "owner.users", model: "Users" },
+        populate: { path: "owner", model: "Users" },
       })
       .lean();
     if (!product) {

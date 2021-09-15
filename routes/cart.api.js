@@ -17,4 +17,16 @@ router.post(
   cartController.createCart
 );
 
+/**
+ * @path : localhost:5000/cart/delete/:cartId
+ * @method: DELETE
+ * @access: login required
+ * @description: Get list cart of an user
+ */
+router.delete(
+  "/delete/:cartId",
+  isAuthMiddleware.loginRequired,
+  cartController.deleteCart
+);
+
 module.exports = router;

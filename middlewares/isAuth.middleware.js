@@ -6,7 +6,7 @@ const isAuthMiddleware = {};
 isAuthMiddleware.loginRequired = (req, res, next) => {
   try {
     let tokenString = req.headers.authorization;
-    console.log("token String here", tokenString);
+    // console.log("token String here", tokenString);
     if (!tokenString) {
       return next(new AppError(404, "Login required", "Authorization Error"));
     }
@@ -14,12 +14,12 @@ isAuthMiddleware.loginRequired = (req, res, next) => {
     // if (token === null) {
     //   return next(new AppError(404, "Login required", "Authorization Error"));
     // }
-    console.log("the token here:", token);
+    // console.log("the token here:", token);
 
-    console.log({ token, JWT_SECRET_KEY });
+    // console.log({ token, JWT_SECRET_KEY });
 
     jwt.verify(token, JWT_SECRET_KEY, (err, payload) => {
-      console.log("payload nhu the nay:", payload);
+      // console.log("payload nhu the nay:", payload);
       if (err) {
         if (err.name === "TokenExpiredError") {
           return next(
@@ -33,7 +33,7 @@ isAuthMiddleware.loginRequired = (req, res, next) => {
       }
 
       req.userId = payload._id;
-      console.log("userID o day>>>>>", req.userId);
+      // console.log("userID o day>>>>>", req.userId);
     });
     next();
   } catch (error) {

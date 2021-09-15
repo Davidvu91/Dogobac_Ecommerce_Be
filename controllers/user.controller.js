@@ -71,6 +71,7 @@ userController.deleteUserInfo = catchAsync(async (req, res, next) => {
   let userId = req.userId;
   console.log("Id cua User sap bi xoa, ahihi:", userId);
   let user = await User.findById(userId);
+
   if (user.length === 0) {
     return next(new AppError(300, "User not found", "Delete User fail"));
   }

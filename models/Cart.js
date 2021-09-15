@@ -4,13 +4,17 @@ const Schema = mongoose.Schema;
 const CartSchema = new Schema(
   {
     owner: { type: Schema.ObjectId, ref: "Users", required: true },
-    items: [
-      {
-        productId: { type: Schema.ObjectId, ref: "Product", required: true },
-        quantity: { type: Number, required: true },
-      },
-    ],
+    status: {
+      type: String,
+      enum: ["inline", "pendding", "paid"],
+      required: true,
+      default: "inline",
+    },
     isDeleted: { type: Boolean, default: false },
+    items: {
+      productId: { type: Schema.ObjectId, ref: "Product", required: true },
+      quantity: { type: Number, required: true },
+    },
   },
   { timestamps: true }
 );
@@ -20,8 +24,9 @@ module.exports = Cart;
 
 // { type: Schema.ObjectId, ref: "Product", required: true },
 // { quantity: { type: Number, required: true } },
-// status: {
-//   type: String,
-//   enum: ["empty", "pending", "paid"],
-//   required: true,
-// },
+// items: [
+//   {
+//     productId: { type: Schema.ObjectId, ref: "Product", required: true },
+//     quantity: { type: Number, required: true },
+//   },
+// ],
