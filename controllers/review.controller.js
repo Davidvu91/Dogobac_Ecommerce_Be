@@ -14,11 +14,12 @@ reviewController.createReview = catchAsync(async (req, res, next) => {
   const { content, rating } = data;
   const owner = req.userId;
   const targetProduct = req.product._id;
+  console.log("ahihii", targetProduct);
 
   // check if data has owner, targetProduct, rating (requied fields)?
   if (!owner || !targetProduct || !rating) {
     return next(
-      new AppError(400, "Not enough data to create review", "reate review fail")
+      new AppError(400, "Khong du data ban oi...", "reate review fail")
     );
   }
   // check if userId and productId is Valid?

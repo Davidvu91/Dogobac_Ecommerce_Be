@@ -19,6 +19,9 @@ const getSingleProductById = async function (req, res, next) {
         populate: { path: "owner", model: "Users" },
       })
       .lean();
+    //check if owner exist?
+
+    //check if product exsit?
     if (!product) {
       return res.status(403).json({ error: "Product not found" });
     }

@@ -76,6 +76,8 @@ userController.deleteUserInfo = catchAsync(async (req, res, next) => {
     return next(new AppError(300, "User not found", "Delete User fail"));
   }
   user = await User.findByIdAndDelete(userId);
+  // find all reviews that have owner = userId
+  // --> delete reviewId in Product doccument
   return sendResponse(
     res,
     200,
