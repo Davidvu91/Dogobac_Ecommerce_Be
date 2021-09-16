@@ -43,16 +43,16 @@ userController.createAccountWithEmail = catchAsync(async (req, res, next) => {
 userController.updateUserInfo = catchAsync(async (req, res, next) => {
   const userId = req.userId;
   console.log("userId sent from IsLogin middleware:", userId);
-  const { name, email, avataUrl, address } = req.body;
+  const { name, email, avataUrl, address, phone } = req.body;
   let user = await User.findById(userId);
   if (!user)
     return next(new AppError(300, "User not found", "User update Error"));
-  if (!name && !email && !avataUrl && !address)
+  if (!name && !email && !avataUrl && !address && !phone)
     return next(new AppError(300, "No new change", "User update Error"));
 
   user = await User.findByIdAndUpdate(
     userId,
-    { name, email, avataUrl, address },
+    { name, email, avataUrl, address, phone },
     { new: true }
   );
   return utilHelpers.sendResponse(
