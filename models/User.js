@@ -9,9 +9,9 @@ const UserSchema = new Schema(
   {
     name: { type: String, required: true, trim: true },
     email: { type: String, required: true, unique: true, trim: true },
-    phone: { type: Number, unique: true, trim: true },
+    phone: { type: String, unique: true, trim: true },
     password: { type: String, required: true, trim: true },
-    role: { type: Number, default: 0 },
+    role: { type: Number, required: true, default: 0 },
     address: { type: String, default: "", trim: true },
     cart: [{ type: Schema.ObjectId, ref: "Cart" }],
     review: [{ type: Schema.ObjectId, ref: "Review" }],
