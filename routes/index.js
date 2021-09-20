@@ -30,4 +30,8 @@ router.use("/review", reviewRoute);
 const cartRoute = require("./cart.api");
 router.use("/cart", cartRoute);
 
+/**Order Router */
+const orderRoute = require("./order.api");
+router.use("/order", orderRoute);
+
 module.exports = router;

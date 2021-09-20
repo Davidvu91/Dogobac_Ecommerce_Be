@@ -102,7 +102,7 @@ userController.getSingleUserInfo = catchAsync(async (req, res) => {
   );
 });
 
-// Get all user info controller
+// GET ALL USERS CONTROLLER
 userController.getAllUserInfo = catchAsync(async (req, res, next) => {
   let data = await User.find();
   if (data.length === 0)

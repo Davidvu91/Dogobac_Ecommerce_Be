@@ -14,6 +14,7 @@ const UserSchema = new Schema(
     role: { type: Number, required: true, default: 0 },
     address: { type: String, default: "", trim: true },
     cart: [{ type: Schema.ObjectId, ref: "Cart" }],
+    order: [{ type: Schema.ObjectId, ref: "Order" }],
     review: [{ type: Schema.ObjectId, ref: "Review" }],
     avataUrl: {
       type: String,

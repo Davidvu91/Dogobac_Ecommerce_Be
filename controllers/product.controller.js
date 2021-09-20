@@ -124,11 +124,12 @@ productController.updateProduct = catchAsync(async (req, res, next) => {
 // DELETE A SINGLE PRODUCT CONTROLLER
 productController.deleteProduct = async (req, res) => {
   let product = req.product;
+  let productId = product._id;
   console.log("product with related products", product);
   try {
-    let deletedProduct = await product.remove();
+    let deletedProduct = await Product.findByIdAndDelete(productId);
     res.json({
-      message: `${deletedProduct.name} deleted successfully`,
+      message: `${deletedProduct.name} has been deleted successfully`,
     });
   } catch (error) {
     console.log(error);
