@@ -11,7 +11,7 @@ orderController.createOrder = async (req, res, next) => {
   const { paymentMenthod, amount, items } = req.body;
 
   //check if enough data?
-  if (!owner || !items || !amount || !paymentMenthod) {
+  if (!owner || !items || !amount) {
     return res.status(403).json({ error: "not enough data" });
   }
   //check if userId and productId isvalid?
@@ -43,7 +43,7 @@ orderController.createOrder = async (req, res, next) => {
 
 //GET ALL ORDERS:
 orderController.getAllOrder = async (req, res, next) => {
-  let data = await Order.find();
+  let data = await Order.find().populate("owner");
   if (data.length === 0) {
     return res.status(403).json({ error: "No Order founded" });
   }
