@@ -27,7 +27,7 @@ authController.loginWithEmail = catchAsync(async (req, res, next) => {
     res,
     200,
     true,
-    { accessToken },
+    { accessToken, user },
     null,
     "Authentication with email, Login succsessfully"
   );

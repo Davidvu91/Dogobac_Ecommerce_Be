@@ -54,4 +54,33 @@ orderController.getAllOrder = async (req, res, next) => {
     .json({ data, totalOrder, message: "You get all orders successfully" });
 };
 
+// UPDATE STATUS OF SINGLE ORDER:
+orderController.updateStatusOfOrder = async (req, res, next) => {
+  const { orderId } = req.params;
+  console.log("this is the orderId:", orderId);
+  const status = req.body.status;
+  console.log("the status has been changed to:", status);
+
+  // check if orderId is valid?
+  if (!mongoose.Types.ObjectId.isValid(orderId)) {
+    return res.status(403).json({ error: "OrderId is not valid" });
+  }
+  let order = await Order.findById(orderId);
+  if (!order) {
+    return res.status(403).json({ error: "Order not found" });
+  }
+  if (!status) {
+    return res.status(300).json({ error: "No Thing change to update order" });
+  }
+
+  order = await Order.findByIdAndUpdate(
+    orderId,
+    { status: status },
+    { new: true }
+  );
+  return res
+    .status(200)
+    .json({ order, message: "update status order successfully" });
+};
+
 module.exports = orderController;

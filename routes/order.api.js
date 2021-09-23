@@ -31,4 +31,16 @@ router.get(
   orderController.getAllOrder
 );
 
+/**
+ * @path : localhost:5000/order/update/:orderId
+ * @method: PUT
+ * @access: admin required
+ * @description: update status of single Order
+ */
+router.put(
+  "/update/:orderId",
+  isAuthMiddleware.loginRequired,
+  adminMiddleware,
+  orderController.updateStatusOfOrder
+);
 module.exports = router;
