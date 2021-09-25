@@ -9,9 +9,9 @@ cartController.createCart = catchAsync(async (req, res, next) => {
   const owner = req.userId;
   const productId = req.product._id;
   const { quantity } = req.body;
-  console.log("thong tin cart owner:", owner);
-  console.log("thong tin cart productId:", productId);
-  console.log("thong tin cart quantity:", quantity);
+  // console.log("thong tin cart owner:", owner);
+  // console.log("thong tin cart productId:", productId);
+  // console.log("thong tin cart quantity:", quantity);
 
   // check if data has owner, productId, quantity?
   if (!owner || !productId || !quantity) {
