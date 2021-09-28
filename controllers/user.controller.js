@@ -136,23 +136,26 @@ userController.getAmountOfUserByDate = async (req, res, next) => {
   console.log("formatedDate:", formatedDates);
   let day1 = formatedDates[3];
   console.log("day...:", day1);
-  let n = formatedDates.length;
 
-  // Now find user and count of single date:
+  // Test find user and count of single date:
   let amount = await User.find({
-    createdAt: { $gt: new Date("2021-09-17") },
+    createdAt: { $gt: new Date(formatedDates[0]) },
   }).count();
-  console.log("tong user 1 ngay la: ", amount);
+  console.log("Test amount: ", amount);
 
   // Loop the array of formatedDates and give back data of 7 dates
   let data = [];
-  for (let i = 0; i < n; i++) {
+  for (let i = formatedDates.length - 1; i >= 1; i--) {
     data.push(
       await User.find({
-        createdAt: { $gt: new Date(formatedDates[i]) },
+        createdAt: {
+          $gt: new Date(formatedDates[i]),
+          $lt: new Date(formatedDates[i - 1]),
+        },
       }).count()
     );
   }
+  data.push(amount);
 
   console.log("data:...", data);
   res.status(200).json({
