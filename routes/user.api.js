@@ -20,6 +20,20 @@ router.get(
 );
 
 /**
+ * @Path : localhost:5000/user/getbydade
+ * @Method : GET
+ * @Access : Admin required
+ * @Description : Get amount of user in the lated date
+ */
+
+router.get(
+  "/getamount",
+  isAuthMiddleware.loginRequired,
+  adminMiddleware,
+  userController.getAmountOfUserByDate
+);
+
+/**
  * @Path : localhost:5000/user/create
  * @Method : POST
  * @Access : public

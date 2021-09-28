@@ -119,4 +119,47 @@ userController.getAllUserInfo = catchAsync(async (req, res, next) => {
   );
 });
 
+// GET AMOUT OF USERS IN THE LASTED 7 DATE:
+userController.getAmountOfUserByDate = async (req, res, next) => {
+  //Get 7 latest days form now
+  const days = [...Array(7)].map((_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    return d;
+  });
+  console.log("7 days ago:", days);
+  // Format dates before use:
+  let formatedDates = [];
+  for (let i = 0; i < days.length; i++) {
+    formatedDates.push(days[i].toISOString().slice(0, 10));
+  }
+  console.log("formatedDate:", formatedDates);
+  let day1 = formatedDates[3];
+  console.log("day...:", day1);
+  let n = formatedDates.length;
+
+  // Now find user and count of single date:
+  let amount = await User.find({
+    createdAt: { $gt: new Date("2021-09-17") },
+  }).count();
+  console.log("tong user 1 ngay la: ", amount);
+
+  // Loop the array of formatedDates and give back data of 7 dates
+  let data = [];
+  for (let i = 0; i < n; i++) {
+    data.push(
+      await User.find({
+        createdAt: { $gt: new Date(formatedDates[i]) },
+      }).count()
+    );
+  }
+
+  console.log("data:...", data);
+  res.status(200).json({
+    formatedDates,
+    data,
+    message: "get data to create chart successfully",
+  });
+};
+
 module.exports = userController;
